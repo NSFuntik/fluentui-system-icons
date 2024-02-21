@@ -27,6 +27,7 @@ public extension NSImage {
 
 #if os(iOS)
 import UIKit
+import SwiftUI
 
 private class FluentIconsBundleCheck {}
 
@@ -54,6 +55,26 @@ public extension UIImageView {
   @objc convenience init(fluent: FluentIcon, highlightedFluent: FluentIcon, tintColor: UIColor) {
     self.init(image: UIImage(fluent: fluent), highlightedImage: UIImage(fluent: highlightedFluent))
     self.tintColor = tintColor
+  }
+}
+
+extension Image {
+    public init(fluent: FluentIcon) {
+        self = Image(uiImage: UIImage(fluent: fluent))
+    }
+
+    public static func fluent(_ fluent: FluentIcon) -> Image {
+        #if DEBUG && targetEnvironment(simulator)
+            return self.init(uiImage: UIImage(fluent: fluent))
+        #else
+        return self.init(fluent: fluent)
+        #endif
+    }
+}
+
+extension FluentIcon {
+  public var image: Image {
+      return Image.init(fluent: self)
   }
 }
 #endif
