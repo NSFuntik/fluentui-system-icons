@@ -73,7 +73,7 @@ extension Image {
 }
 
 extension FluentIcon {
-  public var image: Image {
+  public func callAsFunction() -> Image {
       return Image.init(fluent: self)
   }
 }
